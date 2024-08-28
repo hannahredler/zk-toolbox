@@ -1,11 +1,11 @@
 import { useState } from "react"
 import {
-  EdDSAPoseidon,
   deriveSecretScalar,
   derivePublicKey,
   signMessage,
   packPublicKey,
 } from "@zk-kit/eddsa-poseidon"
+import { formatLargeNumber } from "../../../utils/bigint"
 
 export const EdDSAPoseidonDemo = () => {
   const [privateKey, setPrivateKey] = useState<string>("")
@@ -79,26 +79,4 @@ export const EdDSAPoseidonDemo = () => {
       </div>
     </div>
   )
-}
-
-const abs = (num: bigint) => (num < 0 ? -num : num)
-
-function formatLargeNumber(num: bigint): string {
-  if (num === 0n) return "0"
-
-  const absVal = abs(num)
-
-  let exponent = 0
-  let base = absVal
-
-  while (base >= 1000n) {
-    base /= 10n
-    exponent++
-  }
-
-  // Format to a fixed precision (e.g., 2 decimal places)
-  const baseFixed = Number(base) / 100
-  exponent += 2
-
-  return `${baseFixed} × 10^${exponent}`
 }

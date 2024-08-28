@@ -1,4 +1,5 @@
-import { EdDSAPoseidonDemo } from "./components/Poseidon/eddsa-poseidon/EdDsaPoseidonDemo"
+import { EllipticCurve } from "./components/EllipticCurve"
+import { EdDSAPoseidonDemo } from "./components/Poseidon/eddsa-poseidon/EdDSAPoseidonDemo"
 
 function App() {
   return (
@@ -7,8 +8,13 @@ function App() {
         <span>ZK-Toolbox</span>
         <span className="text-sm">A set of tools for zk developers</span>
       </div>
-      <div className="border-[1px] border-neon rounded-md p-3">
-        <EdDSAPoseidonDemo />
+      <div className="flex flex-row gap-5">
+        <div className="border-[1px] border-neon rounded-md p-3">
+          <EdDSAPoseidonDemo />
+        </div>
+        <div className="border-[1px] border-neon rounded-md p-3">
+          <EllipticCurve />
+        </div>
       </div>
     </div>
   )
