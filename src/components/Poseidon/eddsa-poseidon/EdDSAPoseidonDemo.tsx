@@ -32,7 +32,7 @@ export const EdDSAPoseidonDemo = () => {
           onChange={(evt) => setPrivateKey(evt.target.value)}
         />
         <span className="text-red-700">
-          This is for testing purposes only. Do not enter any real public keys.
+          This is for testing purposes only. Do not enter any real private keys.
         </span>
       </div>
       <div className="flex flex-col w-fullp">
