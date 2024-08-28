@@ -1,3 +1,5 @@
+import { EdDSAPoseidonDemo } from "./components/Poseidon/eddsa-poseidon/EdDsaPoseidonDemo"
+
 function App() {
   return (
     <div className="w-full flex flex-col items-center justify-start bg-black min-h-vh text-neon">
@@ -5,9 +7,11 @@ function App() {
         <span>ZK-Toolbox</span>
         <span className="text-sm">A set of tools for zk developers</span>
       </div>
-      <div className="border-[1px] border-neon rounded-md p-3">hello</div>
+      <div className="border-[1px] border-neon rounded-md p-3">
+        <EdDSAPoseidonDemo />
+      </div>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
