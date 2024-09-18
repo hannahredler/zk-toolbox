@@ -21,7 +21,7 @@ export const EllipticCurve = () => {
   }
 
   return (
-    <div className="flex flex-col gap-2 max-w-md ">
+    <div className="flex flex-col gap-2 max-w-md">
       <h1>
         <a
           href="https://eips.ethereum.org/EIPS/eip-2494"
@@ -70,9 +70,12 @@ export const EllipticCurve = () => {
             />
           </div>
         </div>
-        <div className="text-gray-400 my-2">
+        <div className="text-gray-400 my-2 ">
           {isValid ? (
-            `The point ${formatPoint([x, y])} is a valid point on the curve`
+            <span className="">{`The point ${formatPoint([
+              x,
+              y,
+            ])} is a valid point on the curve`}</span>
           ) : (
             <div>
               <span className="my-2">{`The point ${formatPoint([
