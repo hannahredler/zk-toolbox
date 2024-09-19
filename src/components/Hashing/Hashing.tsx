@@ -28,6 +28,8 @@ export function Hashing() {
 
   const [encryptedValue, setEncryptedValue] = useState<string>("")
 
+  const [calculationTime, setCalculationTime] = useState(0)
+
   const hashInput = (input: string, algorithm: SupportedAlgorithm) => {
     if (!input || input.length < 2) return
     let engine
@@ -46,19 +48,18 @@ export function Hashing() {
   }
 
   useEffect(() => {
+    const startTime = performance.now()
     const hashed = hashInput(value, algorithm)
-    if (hashed) setEncryptedValue(toHex(hashed))
+    const endTime = performance.now()
+    if (hashed) {
+      setEncryptedValue(toHex(hashed))
+      setCalculationTime(endTime - startTime)
+    }
   }, [value, algorithm])
 
   return (
-    <div className="max-w-lg">
+    <div className="max-w-lg flex flex-col">
       <h1 className="pb-2">Hash Functions</h1>
-      <input
-        className="border-[1px] rounded border-neon p-1"
-        placeholder="Type input here"
-        value={value}
-        onChange={(event) => setValue(event.target.value)}
-      />
       <div>
         <h2 className="text-sm py-2">Choose hash function</h2>
         <div className="gap-2">
@@ -78,12 +79,18 @@ export function Hashing() {
             )
           })}
         </div>
-
-        <h3>Output</h3>
-        <span className="text-wrap break-all text-gray-400">
-          {encryptedValue}
-        </span>
       </div>
+      <input
+        className="border-[1px] rounded border-neon p-1"
+        placeholder="Type input here"
+        value={value}
+        onChange={(event) => setValue(event.target.value)}
+      />
+      <h3>Output</h3>
+      <span className="text-wrap break-all text-gray-400">
+        {encryptedValue}
+      </span>
+      <span>Time taken = {calculationTime} ms</span>
     </div>
   )
 }
