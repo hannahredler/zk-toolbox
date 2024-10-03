@@ -1,5 +1,5 @@
 import { blake2sInit, blake2sUpdate, blake2sFinal, Blake2sCTX } from "blakejs"
-import { HashFunction } from "./HashFunction"
+import { HashFunction } from "../HashFunction"
 
 /**
  * @module Blake2s

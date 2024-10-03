@@ -1,61 +1,15 @@
-import { useState, useEffect } from "react"
-import Blake2b from "./Blake2b"
-import Blake2s from "./Blake2s"
+import { useState } from "react"
 
-const hashingMap = {
-  blake2b: {
-    text: "blake 2b",
-  },
-  blake2s: {
-    text: "blake 2s",
-  },
-} as const
-type SupportedAlgorithm = keyof typeof hashingMap
-
-function toHex(bytes: Uint8Array) {
-  return Array.prototype.map
-    .call(bytes, function (n) {
-      return (n < 16 ? "0" : "") + n.toString(16)
-    })
-    .join("")
-}
+import { SupportedAlgorithm } from "./utils"
+import { Blake2bHasher } from "./Blake2b/Blake2bHasher"
+import { Blake2sHasher } from "./Blake2s/Blake2sHasher"
 
 export function Hashing() {
   const [value, setValue] = useState<string>("")
 
-  const [algorithm, setSelectedAlgorithm] =
-    useState<SupportedAlgorithm>("blake2b")
-
-  const [encryptedValue, setEncryptedValue] = useState<string>("")
-
-  const [calculationTime, setCalculationTime] = useState(0)
-
-  const hashInput = (input: string, algorithm: SupportedAlgorithm) => {
-    if (!input || input.length < 2) return
-    let engine
-
-    console.log("input", input, algorithm)
-    if (algorithm === "blake2b") {
-      engine = new Blake2b()
-    } else {
-      engine = new Blake2s()
-    }
-
-    const encoder = new TextEncoder()
-
-    engine.update(Uint8Array.from(encoder.encode(input)))
-    return engine.digest()
-  }
-
-  useEffect(() => {
-    const startTime = performance.now()
-    const hashed = hashInput(value, algorithm)
-    const endTime = performance.now()
-    if (hashed) {
-      setEncryptedValue(toHex(hashed))
-      setCalculationTime(endTime - startTime)
-    }
-  }, [value, algorithm])
+  const [algorithm, setSelectedAlgorithm] = useState<SupportedAlgorithm>(
+    SupportedAlgorithm.Blake2b
+  )
 
   return (
     <div className="max-w-lg flex flex-col">
@@ -63,7 +17,7 @@ export function Hashing() {
       <div>
         <h2 className="text-sm py-2">Choose hash function</h2>
         <div className="gap-2">
-          {Object.entries(hashingMap).map(([id, { text }]) => {
+          {Object.keys(SupportedAlgorithm).map((id) => {
             const isSelected = id === algorithm
 
             return (
@@ -74,7 +28,7 @@ export function Hashing() {
                 }`}
                 onClick={() => setSelectedAlgorithm(id as SupportedAlgorithm)}
               >
-                {text}
+                {id}
               </button>
             )
           })}
@@ -86,11 +40,9 @@ export function Hashing() {
         value={value}
         onChange={(event) => setValue(event.target.value)}
       />
-      <h3>Output</h3>
-      <span className="text-wrap break-all text-gray-400">
-        {encryptedValue}
-      </span>
-      <span>Time taken = {calculationTime} ms</span>
+
+      {algorithm === "Blake2b" && <Blake2bHasher value={value} />}
+      {algorithm === "Blake2s" && <Blake2sHasher value={value} />}
     </div>
   )
 }
